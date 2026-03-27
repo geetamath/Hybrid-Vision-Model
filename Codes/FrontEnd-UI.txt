@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #2c3e50;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto; /* Enables scrolling */
+            height: 100vh;
+        }
+        .container {
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 90%;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ccc;
+        }
+        .feedback-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        textarea {
+            width: 60%;
+            height: 60px;
+            border-radius: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Image Detection</h1>
+        <p>Upload an image, and we'll detect objects and faces within it.</p>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="processImage()">Upload & Detect</button>
+        <h2>Detected Image</h2>
+        <img id="outputImage" src="#" alt="Processed Image" style="display:none;">
+        <p>Thank you for using our service!</p>
+        <h3>Feedback</h3>
+        <div class="feedback-container">
+            <textarea id="feedback" placeholder="Let us know if any detections were incorrect."></textarea>
+            <button onclick="submitFeedback()">Submit</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created by: Geeta S Math | Date: 09/02/2025</p>
+        <p>&copy; 2025 Image Detection Project. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function processImage() {
+            let input = document.getElementById("imageUpload");
+            let output = document.getElementById("outputImage");
+            let file = input.files[0];
+
+            if (file) {
+                let formData = new FormData();
+                formData.append("image", file);
+
+                fetch("/detect", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                    let url = URL.createObjectURL(blob);
+                    output.src = url;
+                    output.style.display = "block";
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        }
+
+        function submitFeedback() {
+            alert("Thank you for your feedback!");
+        }
+    </script>
+</body>
+</html>
