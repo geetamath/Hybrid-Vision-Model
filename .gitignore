@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+
+# Flask
+instance/
+.webassets-cache
+
+# Uploaded/Output Images
+uploads/
+outputs/
+
+# YOLO weights (optional to ignore)
+*.weights
+
+# OS Files
+.DS_Store
+Thumbs.db
